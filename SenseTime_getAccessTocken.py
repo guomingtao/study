@@ -25,8 +25,8 @@ def base2picture(base64,path):
         file.write(image)
 
 
-print(picture2base(r'C:\Users\cm\Desktop\demo.jpg'))
-base2picture(picture2base(r'C:\Users\cm\Desktop\demo.jpg'),r'C:\Users\cm\Desktop\demo1.jpg')
+# print(picture2base(r'C:\Users\cm\Desktop\demo.jpg'))
+# base2picture(picture2base(r'C:\Users\cm\Desktop\demo.jpg'),r'C:\Users\cm\Desktop\demo1.jpg')
 
 
 
@@ -50,6 +50,7 @@ def getAccessToken():
 
 def getPortraits():
     token = getAccessToken()
+    data1=picture2base(r'C:\Users\cm\Desktop\demo.jpg')
     url = host +'/whale-openapi/portraits/query'
     payload={
         "page":1,
@@ -63,11 +64,11 @@ def getPortraits():
     return  json.loads(response.text)
 
 def imageSearch():
-
-
+    token = getAccessToken()
+    data1=picture2base(r'C:\Users\cm\Desktop\demo.jpg')
     url = "http://16.130.45.120:10219/whale-openapi/composite-search/capture/search"
 
-    payload = json.dumps({
+    payload = {
         "objectSerial": "1653274566260",
         "serial": "1653274558677",
         "search": True,
@@ -79,7 +80,7 @@ def imageSearch():
             "manual": True,
             "image": {
                 "name": "1653274554987.jpg",
-                "url": "http://16.130.45.122:30080/components/osg-default/_/video_face_panoramic/20220523-4cd613f1-000a580ae001e9-2311c7d8-00058158"
+                "data": data1
             },
             "position": {
                 "start": {
@@ -112,16 +113,14 @@ def imageSearch():
                 "selectType": 99
             }
         ]
-    })
-    headers = {
-        'accessToken': '59ef217b5849453b9d7ee218101443eb',
-        'Content-Type': 'application/json'
     }
+    headers={'Content-Type': 'application/json','accessToken': token }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
     return response.text
 
+print(imageSearch())
 
 
 
