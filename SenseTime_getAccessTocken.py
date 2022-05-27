@@ -9,9 +9,9 @@ def picture2base(path):
         # 使用base64进行编码
         b64encode = pybase64.b64encode(img.read())
         s = b64encode.decode()
-        base64 = 'data:image/jpeg;base64,%s' % s
+#        base64 = 'data:image/jpeg;base64,%s' % s
          #返回base64编码字符串
-        return base64
+        return s
 
 # base64转换成图片
 def base2picture(base64,path):
@@ -31,13 +31,13 @@ def base2picture(base64,path):
 
 
 headers= { 'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36' }
-user='"sfadmin1"'
+user='"sfadmin"'
 password='"SenseTime#2020"'
 host='http://16.130.45.120:10219'
 def getAccessToken():
 
     url= host + '/uums/auth/token'
-    #payload = "{\r\n  \"username\" : \"sfadmin1\",\r\n  \"password\" : \"SenseTime#2020\",\r\n  \"grant_type\" : \"password\"\r\n}"
+    #payload = "{\r\n  \"username\" : \"sfadmin2\",\r\n  \"password\" : \"SenseTime#2020\",\r\n  \"grant_type\" : \"password\"\r\n}"
     payload = "{\r\n  \"username\" : " + user + ", \r\n \"password\" : " + password + ",\r\n  \"grant_type\" :\"password\"\r\n}"
     headers = {'Content-Type': 'application/json'}
 
@@ -62,15 +62,15 @@ def getPortraits():
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
     return  json.loads(response.text)
+#SC4.1以图搜图
 
 def imageSearch():
-    token = getAccessToken()
-    data1=picture2base(r'C:\Users\cm\Desktop\demo.jpg')
+    token=getAccessToken()
     url = "http://16.130.45.120:10219/whale-openapi/composite-search/capture/search"
 
-    payload = {
-        "objectSerial": "1653274566260",
-        "serial": "1653274558677",
+    payload = json.dumps({
+        "objectSerial": "1653616525872",
+        "serial": "1653616525776",
         "search": True,
         "searchFilter": {
             "attributeFilters": [],
@@ -79,19 +79,18 @@ def imageSearch():
         "searchImage": {
             "manual": True,
             "image": {
-                "name": "1653274554987.jpg",
-                "data": data1
+                "name": "sfa.jpg",
+                "data": picture2base(r"C:\Users\cm\Desktop\sfa.jpg")
             },
             "position": {
                 "start": {
-                    "x": 639,
-                    "y": 924
+                    "x": 75,
+                    "y": 66
                 },
                 "end": {
-                    "x": 691,
-                    "y": 972
-                },
-                "scale": 0.7
+                    "x": 227,
+                    "y": 225
+                }
             }
         },
         "page": {
@@ -99,8 +98,8 @@ def imageSearch():
             "page": 1
         },
         "period": {
-            "endTime": 1653274554915,
-            "startTime": 1652669754915,
+            "endTime": 1653616507161,
+            "startTime": 1653011707161,
             "type": 0
         },
         "onlyFace": False,
@@ -113,12 +112,16 @@ def imageSearch():
                 "selectType": 99
             }
         ]
+    })
+    headers = {
+        'accessToken': token,
+        'Content-Type': 'application/json'
     }
-    headers={'Content-Type': 'application/json','accessToken': token }
 
-    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+    response = requests.request("POST", url, headers=headers, data=payload)
 
-    return response.text
+    return  response.text
+
 
 print(imageSearch())
 
