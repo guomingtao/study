@@ -64,9 +64,9 @@ def getPortraits():
     return  json.loads(response.text)
 #SC4.1以图搜图
 
-def imageSearch():
+def imageSearch(imagepath):
     token=getAccessToken()
-    url = "http://16.130.45.120:10219/whale-openapi/composite-search/capture/search"
+    url = host + "/whale-openapi/composite-search/capture/search"
 
     payload = json.dumps({
         "objectSerial": "1653616525872",
@@ -80,7 +80,7 @@ def imageSearch():
             "manual": True,
             "image": {
                 "name": "sfa.jpg",
-                "data": picture2base(r"C:\Users\cm\Desktop\sfa.jpg")
+                "data": picture2base(imagepath)
             },
             "position": {
                 "start": {
@@ -122,8 +122,8 @@ def imageSearch():
 
     return  response.text
 
-
-print(imageSearch())
+print(getPortraits())
+print(imageSearch(r"C:\Users\cm\Desktop\sfa.jpg"))
 
 
 
