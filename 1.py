@@ -1,38 +1,14 @@
-# -*- coding:utf-8 -*-
-from turtle import *
+import tkinter as tk
 
-# 设置笔刷宽度:
-width(4)
+def on_click(event):
+    root.destroy()
+    with open("somefile.py") as f:
+        code = compile(f.read(), "/path/to/my/file.py", 'exec')
+        exec(code, global_vars, local_vars)
 
-# 前进:
-forward(200)
-# 右转90度:
-right(90)
 
-# 笔刷颜色:
-pencolor('red')
-forward(100)
-right(90)
-
-pencolor('green')
-forward(200)
-right(90)
-
-pencolor('blue')
-forward(100)
-right(90)
-
-def drawStar(x, y):
-    pu()
-    goto(x, y)
-    pd()
-    # set heading: 0
-    seth(0)
-    for i in range(5):
-        fd(40)
-        rt(144)
-
-for x in range(0, 250, 50):
-    drawStar(x, 0)
-# 调用done()使得窗口等待被关闭，否则将立刻关闭窗口:
-done()
+root = tk.Tk()
+button = tk.Button(root, text="Run")
+button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+button.bind("<Button-1>", on_click)
+tk.mainloop()

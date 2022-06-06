@@ -1,6 +1,6 @@
 from pathlib import Path
 import pandas as pd
-path = Path(r"C:\Users\cm\Desktop\test")
+path = Path(r"C:\Users\cm\Desktop\0530")
 excel_data = [(i.stem, pd.read_excel(i)) for i in path.glob("*.xls")]
 df_list = []
 for name, data in excel_data :
