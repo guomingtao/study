@@ -24,7 +24,14 @@ def base2picture(base64,path):
     #图片输出目录
     with open( path , 'wb' ) as file:
         file.write(image)
+def openfile():
+   global filename
+   filename = askopenfilename()
 
+   var1.set(filename)
+   A=picture2base(filename)
+   text.insert(tk.INSERT,A)
+   return filename
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Base64转换脚本')

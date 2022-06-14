@@ -3,6 +3,7 @@ import pybase64
 import io,sys
 import tkinter as tk
 from tkinter import filedialog
+import tkinter as tk
 import sys,os
 
 # 图片转换成base64
@@ -17,6 +18,7 @@ def picture2base(path):
         base64 = 'data:image/{};base64,{}'.format(imageSuffix,s)
         with open(path1, 'wb') as file:
             file.write(base64.encode())
+        tk.messagebox.showinfo(title='HI', message='转换完毕,请查看文件：'+path1)
          #返回base64编码字符串
          # return base64
 
@@ -31,7 +33,11 @@ def base2picture(base64,path):
     #图片输出目录
     with open( path , 'wb' ) as file:
         file.write(image)
-
+def fileopen():
+    global waterpath
+    waterpath = filedialog.askopenfilename()
+    print('图片选择完毕，路径为：', waterpath)
+    print(picture2base(waterpath))
 
 if __name__ == '__main__':
 
@@ -41,11 +47,17 @@ if __name__ == '__main__':
     # root.withdraw()
     # rootpath = filedialog.askdirectory()
     # print('文件夹选择完毕，路径为：', rootpath)
+    window=tk.Tk()
+    window.geometry("800x800+200+200")
+    bt=tk.Button(window,text="图片转BASE64",command=fileopen)
+    bt.grid(row=0,column=0)
 
-    print('请选择图片')
-    waterpath = filedialog.askopenfilename()
-    print('水印图片选择完毕，路径为：', waterpath)
-    print(picture2base(waterpath))
+    # waterpath=""
+    # print('请选择图片')
+    # #waterpath = filedialog.askopenfilename()
+    # print('图片选择完毕，路径为：', waterpath)
+    # print(picture2base(waterpath.encode()))
+    window.mainloop()
 
     # parser = argparse.ArgumentParser(description='Base64转换脚本')
     # sub_parsers = parser.add_subparsers()

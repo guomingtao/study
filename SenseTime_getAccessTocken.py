@@ -118,7 +118,7 @@ def imageSearch(imagepath):
         'Content-Type': 'application/json'
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    response = requests.request("POST", url, headers=headers, data=payload,timeout=10)
 
     return  response.text
 
